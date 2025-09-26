@@ -1,0 +1,24 @@
+[package]
+name = "shtrack"
+edition = "2024"
+version = "0.0.1"
+
+[[bin]]
+name = "shtrack-topic"
+path = "src/topic/main.rs"
+
+[[bin]]
+name = "shtrack-todo"
+path = "src/todo/main.rs"
+
+[[bin]]
+name = "shtrack-note"
+path = "src/note/main.rs"
+
+
+[[bin]]
+name = "shtrack-list"
+path = "src/list/main.rs"
+
+
+[dependencies]
