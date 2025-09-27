@@ -15,10 +15,12 @@ path = "src/todo/main.rs"
 name = "shtrack-note"
 path = "src/note/main.rs"
 
-
 [[bin]]
 name = "shtrack-list"
 path = "src/list/main.rs"
 
+[[bin]]
+name = "shtrack-done"
+path = "src/done/main.rs"
 
 [dependencies]

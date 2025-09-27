@@ -29,7 +29,17 @@ chores
 dev
   [ ] Fix shtrack: make it work with note taking.
 ```
-6. Add this line to your `~/.bashrc` to see all your to-do's everytime you open it:
+6. Set one of the items as done:
+```sh
+shtrack done chores 1
+shtrack list
+chores
+  [ ] Clean up the house.  
+  [X] Take the trash out.
+  [ ] Go buy some cat food. 
+dev
+  [ ] Fix shtrack: make it work with note taking.```
+7. Add this line to your `~/.bashrc` to see all your to-do's everytime you open it:
 ```sh
 shtrack list
 ```

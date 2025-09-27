@@ -21,7 +21,11 @@ fn main() {
             println!("{topic}");
 
             for line in std::fs::read_to_string(filepath).unwrap().lines() {
-                println!("  [ ] {}", line);
+                if line[0..4] == *"NONE" {
+                    println!("  [ ] {}", &line[4..]);
+                } else if line[0..4] == *"DONE" {
+                    println!("  [X] {}", &line[4..]);
+                }
             }
             
         }
