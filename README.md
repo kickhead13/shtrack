@@ -38,7 +38,8 @@ chores
   [X] Take the trash out.
   [ ] Go buy some cat food. 
 dev
-  [ ] Fix shtrack: make it work with note taking.```
+  [ ] Fix shtrack: make it work with note taking.
+```
 7. Add this line to your `~/.bashrc` to see all your to-do's everytime you open it:
 ```sh
 shtrack list
