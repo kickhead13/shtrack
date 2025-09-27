@@ -32,7 +32,7 @@ fn main() {
             .open(format!("{}/.shtrack/{}", path.display(), cli_args[1]))
             .unwrap();
         
-        if let Err(e) = writeln!(file, "NONE{}", cli_args[2..].join(" ")) {
+        if let Err(_) = writeln!(file, "NONE{}", cli_args[2..].join(" ")) {
             eprintln!("Topic {} does not exist.", cli_args[1]);
         }
     }

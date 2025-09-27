@@ -14,7 +14,6 @@ fn main() {
         for path in paths {
             let unwrap_path = path.unwrap();
             let filepath = unwrap_path.path();
-            let filename = filepath.display();
             
             let short_filepath = unwrap_path.file_name();
             let topic = short_filepath.to_str().unwrap();

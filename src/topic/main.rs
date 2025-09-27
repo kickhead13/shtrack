@@ -21,6 +21,11 @@ fn main() {
             if let Err(_) = std::fs::create_dir(format!("{}/.shtrack", path.display())) {
                 eprintln!("Cannot create ~/.shtrack directory...");  
                 std::process::exit(-1);
+            } else {
+                if let Err(_) = std::fs::create_dir(format!("{}/.shtrack/notes", path.display())) {
+                    eprintln!("Cannot create ~/.shtrack/notes directory...");
+                    std::process::exit(-2);
+                }
             }
         }
 

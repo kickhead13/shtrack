@@ -16,14 +16,14 @@ fn main() {
     }
 
     let program = format!("shtrack-{}", cli_args[1]);
-    match std::process::Command::new(program).args(&cli_args[2..]).output() {
+    match std::process::Command::new(program).args(&cli_args[2..]).status() {
         Err(e) => {
             eprintln!("{}", e);
             print!("{HELP_MESSAGE}");
             std::process::exit(-1);
         },
-        Ok(output) => {
-            print!("{}", String::from_utf8_lossy(&output.stdout));
+        Ok(_) => {
+            println!("Done!");
         }
     }
     

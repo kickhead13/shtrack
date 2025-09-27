@@ -28,7 +28,7 @@ fn main()-> Result<(), Box<dyn std::error::Error>> {
             }
         }
         for line in result {
-            if let Err(e) = writeln!(file, "{}", line) {
+            if let Err(_) = writeln!(file, "{}", line) {
                 eprintln!("Failed to set {} to DONE", &line[4..]);
             }
         }
