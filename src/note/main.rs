@@ -43,14 +43,15 @@ fn main() -> Result<(), Box<dyn std::error::Error>>  {
         return list_notes();
     }
 
-    let program = format!("{}", cli_args[1]);
+    let program = std::env::var("EDITOR").expect("vi"); 
+        // format!("{}", cli_args[1]);
     if let Some(home_path) = std::env::home_dir() {
         let mut args = Vec::<String>::new();
-        args.push(format!("{}/.shtrack/notes/{}", home_path.display(), &cli_args[2]));
+        args.push(format!("{}/.shtrack/notes/{}", home_path.display(), &cli_args[1]));
 
-        if let Ok(exists) = std::fs::exists(format!("{}/.shtrack/notes/{}", home_path.display(), &cli_args[2])) {
+        if let Ok(exists) = std::fs::exists(format!("{}/.shtrack/notes/{}", home_path.display(), &cli_args[1])) {
             if ! exists {
-                let mut note_buffer = std::fs::File::create(format!("{}/.shtrack/notes/{}", home_path.display(), &cli_args[2]))?;    
+                let mut note_buffer = std::fs::File::create(format!("{}/.shtrack/notes/{}", home_path.display(), &cli_args[1]))?;    
                 let _ = note_buffer.write_all(NOTE_MESSAGE.as_bytes());
             }
         }
