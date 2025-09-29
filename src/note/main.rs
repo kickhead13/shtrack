@@ -11,15 +11,36 @@ NOTE_NAME:
 
 static NOTE_MESSAGE: &str = r#"
 
-# This is a shtrack note.
-# Write here something of note and you can access it later.
+### This is a shtrack note.
+### Write here something of note and you can access it later.
 "#;
+
+
+fn list_notes() -> Result<(), Box<dyn std::error::Error>> {
+    if let Some(home_path) = std::env::home_dir() {
+        let paths = std::fs::read_dir(format!("{}/.shtrack/notes", home_path.display())).unwrap();
+
+        for path in paths {
+            let unwrap_path = path.unwrap();
+            let filepath = unwrap_path.path();
+        
+            let short_filepath = unwrap_path.file_name();
+            let topic = short_filepath.to_str().unwrap();
+            println!("{topic}");
+        }
+    }
+    Ok(())
+} 
 
 fn main() -> Result<(), Box<dyn std::error::Error>>  {
     let cli_args: Vec<String> = std::env::args().collect();
-    if cli_args.len() < 3 {
+    if cli_args[1] == "--help" || cli_args[1] == "-h" {
         print!("{HELP_MESSAGE}");
         std::process::exit(0);
+    }
+
+    if cli_args[1] == "list" {
+        return list_notes();
     }
 
     let program = format!("{}", cli_args[1]);
@@ -27,8 +48,12 @@ fn main() -> Result<(), Box<dyn std::error::Error>>  {
         let mut args = Vec::<String>::new();
         args.push(format!("{}/.shtrack/notes/{}", home_path.display(), &cli_args[2]));
 
-        let mut note_buffer = std::fs::File::create(format!("{}/.shtrack/notes/{}", home_path.display(), &cli_args[2]))?;
-        let _ = note_buffer.write_all(NOTE_MESSAGE.as_bytes());
+        if let Ok(exists) = std::fs::exists(format!("{}/.shtrack/notes/{}", home_path.display(), &cli_args[2])) {
+            if ! exists {
+                let mut note_buffer = std::fs::File::create(format!("{}/.shtrack/notes/{}", home_path.display(), &cli_args[2]))?;    
+                let _ = note_buffer.write_all(NOTE_MESSAGE.as_bytes());
+            }
+        }
         
         match std::process::Command::new(program).args(args).status() {
             Err(e) => {

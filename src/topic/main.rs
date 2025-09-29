@@ -17,14 +17,16 @@ fn main() {
     }
 
     if let Some(path) = std::env::home_dir() {
-        if let Err(_) = std::fs::exists(format!("{}/.shtrack", path.display())) {
-            if let Err(_) = std::fs::create_dir(format!("{}/.shtrack", path.display())) {
-                eprintln!("Cannot create ~/.shtrack directory...");  
-                std::process::exit(-1);
-            } else {
-                if let Err(_) = std::fs::create_dir(format!("{}/.shtrack/notes", path.display())) {
-                    eprintln!("Cannot create ~/.shtrack/notes directory...");
-                    std::process::exit(-2);
+        if let Ok(exists) = std::fs::exists(format!("{}/.shtrack", path.display())) {
+           if ! exists {
+                if let Err(_) = std::fs::create_dir(format!("{}/.shtrack", path.display())) {
+                    eprintln!("Cannot create ~/.shtrack directory...");  
+                    std::process::exit(-1);
+                } else {
+                    if let Err(_) = std::fs::create_dir(format!("{}/.shtrack/notes", path.display())) {
+                        eprintln!("Cannot create ~/.shtrack/notes directory...");
+                        std::process::exit(-2);
+                    }
                 }
             }
         }
