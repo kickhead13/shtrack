@@ -17,10 +17,11 @@ fn main() {
             let filepath = unwrap_path.path();
             
             let short_filepath = unwrap_path.file_name();
-            let topic = short_filepath.to_str().unwrap();
-            println!("{topic}");
 
-            if short_filepath.into_string().expect("COULD NOT OBTAIN STRING FROM OSSTRING").starts_with("SHTRACK_TOPIC.") {
+            if short_filepath.clone().into_string().expect("COULD NOT OBTAIN STRING FROM OSSTRING").starts_with("SHTRACK_TOPIC.") {
+
+                let topic = short_filepath.to_str().unwrap();
+                println!("{topic}");
                 for (count, line) in std::fs::read_to_string(filepath).unwrap().lines().enumerate() {
                     if line[0..4] == *"NONE" {
                         println!(" {}: [ ] {}", count, &line[4..]);
