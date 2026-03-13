@@ -14,6 +14,7 @@ fn main() {
     let cli_args: Vec<String> = std::env::args().collect();
     if cli_args.len() == 1 || cli_args[1] == "--help" || cli_args[1] == "-h" {
         println!("{HELP_MESSAGE}");
+        std::process::exit(0);
     }
 
     if let Some(path) = std::env::home_dir() {
@@ -31,7 +32,7 @@ fn main() {
             }
         }
 
-        if let Ok(_) = std::fs::File::create(format!("{}/.shtrack/{}", path.display(), &cli_args[1])) {
+        if let Ok(_) = std::fs::File::create(format!("{}/.shtrack/SHTRACK_TOPIC.{}", path.display(), &cli_args[1])) {
             println!("Created new topic {}.", &cli_args[1]);
             std::process::exit(0);
         }

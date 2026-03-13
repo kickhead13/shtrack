@@ -1,10 +1,12 @@
 use std::io::Write;
 
-static HELP_MESSAGE: &str = r#"Usage: shtrack-note <EDITOR> <NOTE_NAME>
+static HELP_MESSAGE: &str = r#"Usage: shtrack-note [<FLAGS>|<NOTE_NAME>]
 Make a note with a given name.
 
-EDITOR:
-    Editor program to be used.
+FLAGS:
+    -h,--help        display this message
+    -l,--list        list existing notes
+
 NOTE_NAME:
     Name of the file where the note will be stored.
 "#;
@@ -22,11 +24,11 @@ fn list_notes() -> Result<(), Box<dyn std::error::Error>> {
 
         for path in paths {
             let unwrap_path = path.unwrap();
-            let filepath = unwrap_path.path();
-        
             let short_filepath = unwrap_path.file_name();
             let topic = short_filepath.to_str().unwrap();
-            println!("{topic}");
+            if let Some(real_topic_name) = topic.strip_suffix(".md") {
+                println!("{}", real_topic_name);
+            }
         }
     }
     Ok(())
@@ -34,24 +36,23 @@ fn list_notes() -> Result<(), Box<dyn std::error::Error>> {
 
 fn main() -> Result<(), Box<dyn std::error::Error>>  {
     let cli_args: Vec<String> = std::env::args().collect();
-    if cli_args[1] == "--help" || cli_args[1] == "-h" {
+    if cli_args.len() == 1 || cli_args[1] == "--help" || cli_args[1] == "-h" {
         print!("{HELP_MESSAGE}");
         std::process::exit(0);
     }
 
-    if cli_args[1] == "list" {
+    if cli_args[1] == "-l" || cli_args[1] == "--list"  {
         return list_notes();
     }
 
     let program = std::env::var("EDITOR").expect("vi"); 
-        // format!("{}", cli_args[1]);
     if let Some(home_path) = std::env::home_dir() {
         let mut args = Vec::<String>::new();
-        args.push(format!("{}/.shtrack/notes/{}", home_path.display(), &cli_args[1]));
-
-        if let Ok(exists) = std::fs::exists(format!("{}/.shtrack/notes/{}", home_path.display(), &cli_args[1])) {
+        args.push(format!("{}/.shtrack/notes/{}.md", home_path.display(), &cli_args[1]));
+    
+        if let Ok(exists) = std::fs::exists(format!("{}/.shtrack/notes/{}.md", home_path.display(), &cli_args[1])) {
             if ! exists {
-                let mut note_buffer = std::fs::File::create(format!("{}/.shtrack/notes/{}", home_path.display(), &cli_args[1]))?;    
+                let mut note_buffer = std::fs::File::create(format!("{}/.shtrack/notes/{}.md", home_path.display(), &cli_args[1]))?;    
                 let _ = note_buffer.write_all(NOTE_MESSAGE.as_bytes());
             }
         }

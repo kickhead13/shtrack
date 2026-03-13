@@ -16,11 +16,11 @@ fn main()-> Result<(), Box<dyn std::error::Error>> {
         let mut file = std::fs::OpenOptions::new()
             .write(true)
             .read(true)
-            .open(format!("{}/.shtrack/{}", home_path.display(), cli_args[1]))
+            .open(format!("{}/.shtrack/SHTRACK_TOPIC.{}", home_path.display(), cli_args[1]))
             .unwrap();
 
         let mut result: Vec<String> = Vec::<String>::new();
-        for (indx, line) in std::fs::read_to_string(format!("{}/.shtrack/{}",home_path.display(), cli_args[1])).unwrap().lines().enumerate() {
+        for (indx, line) in std::fs::read_to_string(format!("{}/.shtrack/SHTRACK_TOPIC.{}",home_path.display(), cli_args[1])).unwrap().lines().enumerate() {
             if indx == cli_args[2].parse::<usize>()? {
                 result.push(format!("DONE{}", &line[4..]));
             } else {

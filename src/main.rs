@@ -22,8 +22,10 @@ fn main() {
             print!("{HELP_MESSAGE}");
             std::process::exit(-1);
         },
-        Ok(_) => {
-            println!("Done!");
+        Ok(exit_code) => {
+            if let Some(code) = exit_code.code() {
+                std::process::exit(code);
+            }
         }
     }
     
